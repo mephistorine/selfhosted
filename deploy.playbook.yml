@@ -1,0 +1,34 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Copy Caddyfile
+      become: yes
+      copy:
+        src: Caddyfile
+        dest: /root
+
+    - name: Copy plausible
+      become: yes
+      copy:
+        src: plausible-clickhouse/
+        dest: /root/plausible-clickhouse
+
+    - name: Copy docker-compose.yml
+      become: yes
+      template:
+        src: docker-compose.yml.j2
+        dest: /root/docker-compose.yml
+
+    - name: Docker compose down
+      become: yes
+      community.docker.docker_compose_v2:
+        docker_cli: /usr/bin/docker
+        project_src: /root
+        state: absent
+
+    - name: Docker compose up
+      become: yes
+      community.docker.docker_compose_v2:
+        docker_cli: /usr/bin/docker
+        project_src: /root
+        state: present

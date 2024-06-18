@@ -1,0 +1,11 @@
+{
+  email mephistorine@gmail.com
+}
+
+analytics.mephi.dev {
+  reverse_proxy http://plausible:8000
+}
+
+cloud.mephi.dev {
+  reverse_proxy http://nextcloud:80
+}
